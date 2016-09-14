@@ -5,20 +5,44 @@ var BUILD_DIR = path.resolve(__dirname, 'src/client/public');
 var APP_DIR = path.resolve(__dirname, 'src/client/app/components');
 
 var config = {
-  entry: APP_DIR + '/index.jsx',
+  devtool: 'inline-source-map',
+  entry: [
+    APP_DIR + '/index.js'
+  ],
   output: {
     path: BUILD_DIR,
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
-  module : {
-    loaders : [
+  resolve: {
+    modulesDirectories: ['node_modules'],
+    extensions: ['', '.js'],
+  },
+  module: {
+    loaders: [
       {
-        test : /\.jsx?/,
-        include : APP_DIR,
-        loaders: 'babel'
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loaders: ['babel?presets[]=react,presets[]=es2015']
       }
     ]
   }
 };
+
+// var config = {
+//   entry: APP_DIR + '/index.jsx',
+//   output: {
+//     path: BUILD_DIR,
+//     filename: 'bundle.js'
+//   },
+//   module : {
+//     loaders : [
+//       {
+//         test : /\.jsx?/,
+//         include : APP_DIR,
+//         loader: 'babel'
+//       }
+//     ]
+//   }
+// };
 
 module.exports = config;

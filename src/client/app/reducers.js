@@ -1,6 +1,6 @@
-// import { SEARCH_STRING } from './actions/SearchBarString.js';
+import { SEARCH_STRING } from './actions/SearchBarString';
 
-export const currentSearchString = function (state='', action) {
+export const search = function (state='', action) {
   switch (action.type) {
     case SEARCH_STRING:
       return action.data;
