@@ -1,24 +1,18 @@
+// Initialize the Redux store, and render the app
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
-import { search } from '../reducers.js';
-import SearchBar from './SearchBarComponent.jsx';
+import { search, toggle } from '../reducers.js';
+import App from './App.jsx';
+import AppContainer from '../containers/AppContainer.js';
 
-let store = createStore(
+const store = createStore(
   combineReducers({
-    search
+    search,
+    toggle
   })
 );
 
-class App extends React.Component {
-  render () {
-    return (
-      <div className="main">
-        <SearchBar/>
-      </div>
-    );
-  }
-}
-
-render(<Provider store={store}><App/></Provider>, document.getElementById('app'));
+render(<Provider store={store}><App component={AppContainer}/></Provider>, document.getElementById('app'));
