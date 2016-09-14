@@ -59,8 +59,6 @@
 
 	'use strict';
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _react = __webpack_require__(/*! react */ 2);
 	
 	var _react2 = _interopRequireDefault(_react);
@@ -73,49 +71,25 @@
 	
 	var _reducers = __webpack_require__(/*! ../reducers.js */ 197);
 	
-	var _SearchBarComponent = __webpack_require__(/*! ./SearchBarComponent.jsx */ 199);
+	var _App = __webpack_require__(/*! ./App.jsx */ 205);
 	
-	var _SearchBarComponent2 = _interopRequireDefault(_SearchBarComponent);
+	var _App2 = _interopRequireDefault(_App);
+	
+	var _AppContainer = __webpack_require__(/*! ../containers/AppContainer.js */ 204);
+	
+	var _AppContainer2 = _interopRequireDefault(_AppContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
 	var store = (0, _redux.createStore)((0, _redux.combineReducers)({
-	  search: _reducers.search
-	}));
-	
-	var App = function (_React$Component) {
-	  _inherits(App, _React$Component);
-	
-	  function App() {
-	    _classCallCheck(this, App);
-	
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-	  }
-	
-	  _createClass(App, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'main' },
-	        _react2.default.createElement(_SearchBarComponent2.default, null)
-	      );
-	    }
-	  }]);
-	
-	  return App;
-	}(_react2.default.Component);
+	  search: _reducers.search,
+	  toggle: _reducers.toggle
+	})); // Initialize the Redux store, and render the app
 	
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRedux.Provider,
 	  { store: store },
-	  _react2.default.createElement(App, null)
+	  _react2.default.createElement(_App2.default, { component: _AppContainer2.default })
 	), document.getElementById('app'));
 
 /***/ },
@@ -23689,9 +23663,15 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.search = undefined;
+	exports.toggle = exports.search = undefined;
 	
 	var _SearchBarString = __webpack_require__(/*! ./actions/SearchBarString */ 198);
+	
+	var _ToggleImage = __webpack_require__(/*! ./actions/ToggleImage.js */ 203);
+	
+	// Reducer to handle anything entered into the search bar
+	
+	// Container file for all reducers
 	
 	var search = exports.search = function search() {
 	  var state = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
@@ -23699,7 +23679,24 @@
 	
 	  switch (action.type) {
 	    case _SearchBarString.SEARCH_STRING:
-	      return action.data;
+	      var caseControl = action.data.toLowerCase();
+	      return caseControl;
+	    default:
+	      return state;
+	  }
+	};
+	
+	//Reducer to handle any clicks on images
+	
+	var toggle = exports.toggle = function toggle() {
+	  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case _ToggleImage.TOGGLE_IMAGE:
+	      return Object.assign({}, state, {
+	        toggle: !state.toggle
+	      });
 	    default:
 	      return state;
 	  }
@@ -23728,6 +23725,77 @@
 
 /***/ },
 /* 199 */
+/*!*******************************************!*\
+  !*** ./src/client/app/components/data.js ***!
+  \*******************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// All data for images are stored in this file.
+	
+	var imageData = exports.imageData = [{
+	  theme: 'travel',
+	  description: 'Rio de Janeiro, Brazil was the site of the 2016 summer olympics. This is a very popular destination for those love beaches and water activities. With ample sightseeing possibilities around, Rio de Janeiro is an ideal destination for tourists.',
+	  link: 'http://www.gohouse.com/wp-content/uploads/sites/1055/2015/05/RIO2.jpg',
+	  toggle: false
+	}, {
+	  theme: 'animals',
+	  description: 'These labrador puppies are about three months old, and are seen hugging in this picture. Labrador Retrievers are one of the most popular breeds of dog in the United States.',
+	  link: 'https://s-media-cache-ak0.pinimg.com/236x/8f/cd/df/8fcddfd9922eaf00614225a66a0af8ce.jpg',
+	  toggle: false
+	}, {
+	  theme: 'interior design',
+	  description: 'This newly remodeled kitchen pulls together some very earthy elements along with some Asian inspired themes. The lighting is done fashionably, and the wooden cabinets pull it all together.',
+	  link: 'http://fashionretailnews.com/I/2016/07/pretty-design-ideas-of-best-kitchen-with-dark-brown-color-wooden-and-pretty-design-ideas-of-best-kitchen-picture-kitchen-wall-paints-ideas.jpg',
+	  toggle: false
+	}, {
+	  theme: 'movies',
+	  description: 'The last Star Wars movie was one of the highest grossing movies of that year. Han Solo died in this movie.',
+	  link: 'http://fallmeeting.agu.org/2015/files/2015/12/Star-Wars.jpg',
+	  toggle: false
+	}, {
+	  theme: 'sports',
+	  description: 'In this olympic length swimming pool, swimmers get together and race for the best form and speed. Most of the people who race here have had years of training under their belts.',
+	  link: 'http://www.historicdodgertown.com/images/interface/backgrounds/cust_bg_87_1399620442455.jpg',
+	  toggle: false
+	}, {
+	  theme: 'anatomy',
+	  description: 'This is a diagram of a human cadiovascular, respiratory, and digestive systems. All of these systems work in concert to keep a person alive.',
+	  link: 'http://image.shutterstock.com/z/stock-photo-human-body-103183097.jpg',
+	  toggle: false
+	}, {
+	  theme: 'games',
+	  description: 'Chess is one of the oldest games invented by man. It involves a lot of strategy and anticipation of what the opponent might do next.',
+	  link: 'https://cdn6.bigcommerce.com/s-5p6k1/product_images/d/chess-sets-black-ash-burl-burnt-parker-burnt-zoom-1400x720__16429.jpg',
+	  toggle: false
+	}, {
+	  theme: 'crafts',
+	  description: 'Pottery is a very old and interesting craft. Artists have managed to produce very elegant pieces that are now on display around the world.',
+	  link: 'https://img.grouponcdn.com/deal/v5WeJc5pMNgFC91PuJc2/Nu-700x420/v1/c700x420.jpg',
+	  toggle: false
+	}, {
+	  theme: 'art',
+	  description: 'This is a gorgeous painting of a girl walking in the fall as leaves fall all over her umbrella. This is a classic piece done with acryllic paint.',
+	  link: 'https://a2ua.com/painting/painting-007.jpg',
+	  toggle: false
+	}, {
+	  theme: 'history',
+	  description: 'Paul Revere was instrumental in getting through the American Revolution. He woke people in the middle of the night to fight against the British army.',
+	  link: 'http://ep.yimg.com/ay/yhst-13903421038269/paul-revere-5.jpg',
+	  toggle: false
+	}, {
+	  theme: 'custom',
+	  description: 'Grumpy Cat is a very popular meme. The cat featured apparently has a disorder that keeps his face that way.',
+	  link: 'http://i1.kym-cdn.com/photos/images/facebook/000/848/659/40f.jpg',
+	  toggle: false
+	}];
+
+/***/ },
+/* 200 */
 /*!**********************************************************!*\
   !*** ./src/client/app/components/SearchBarComponent.jsx ***!
   \**********************************************************/
@@ -23751,15 +23819,15 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Defines functions and classes for the search bar
 	
 	var SearchBar = function (_React$Component) {
 	  _inherits(SearchBar, _React$Component);
 	
-	  function SearchBar() {
+	  function SearchBar(props) {
 	    _classCallCheck(this, SearchBar);
 	
-	    return _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).call(this, props));
 	  }
 	
 	  _createClass(SearchBar, [{
@@ -23770,7 +23838,7 @@
 	        { className: "searchBarContainer" },
 	        _react2.default.createElement(
 	          "form",
-	          null,
+	          { className: "inputForm" },
 	          _react2.default.createElement("input", { placeholder: "Search by theme", name: "search", className: "searchBar" }),
 	          _react2.default.createElement(
 	            "button",
@@ -23786,6 +23854,295 @@
 	}(_react2.default.Component);
 	
 	exports.default = SearchBar;
+
+/***/ },
+/* 201 */
+/*!*******************************************************!*\
+  !*** ./src/client/app/components/ImagesComponent.jsx ***!
+  \*******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _SingleImage = __webpack_require__(/*! ./SingleImage.jsx */ 202);
+	
+	var _SingleImage2 = _interopRequireDefault(_SingleImage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Images = function (_React$Component) {
+	  _inherits(Images, _React$Component);
+	
+	  function Images(props) {
+	    _classCallCheck(this, Images);
+	
+	    return _possibleConstructorReturn(this, (Images.__proto__ || Object.getPrototypeOf(Images)).call(this, props));
+	  }
+	
+	  _createClass(Images, [{
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'big-image-div' },
+	        this.props.imageData.map(function (image, index) {
+	          return _react2.default.createElement(
+	            'div',
+	            { key: index, className: 'outerCard' },
+	            _react2.default.createElement(_SingleImage2.default, _extends({ image: image }, _this2.props))
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return Images;
+	}(_react2.default.Component);
+	
+	exports.default = Images;
+
+/***/ },
+/* 202 */
+/*!***************************************************!*\
+  !*** ./src/client/app/components/SingleImage.jsx ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _ToggleImage = __webpack_require__(/*! ../actions/ToggleImage.js */ 203);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Defines functions and rendering on any single image
+	
+	var SingleImage = function (_React$Component) {
+	  _inherits(SingleImage, _React$Component);
+	
+	  function SingleImage(props) {
+	    _classCallCheck(this, SingleImage);
+	
+	    var _this = _possibleConstructorReturn(this, (SingleImage.__proto__ || Object.getPrototypeOf(SingleImage)).call(this, props));
+	
+	    _this.state = {
+	      toggle: false
+	    };
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(SingleImage, [{
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      this.setState({
+	        toggle: !this.state.toggle
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (!this.state.toggle) {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'innerCard' },
+	          _react2.default.createElement('img', { src: this.props.image.link, onClick: this.handleClick, className: 'themePictures' })
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          { className: 'description', onClick: this.handleClick },
+	          this.props.image.description
+	        );
+	      }
+	    }
+	  }]);
+	
+	  return SingleImage;
+	}(_react2.default.Component);
+	
+	exports.default = SingleImage;
+
+/***/ },
+/* 203 */
+/*!***********************************************!*\
+  !*** ./src/client/app/actions/ToggleImage.js ***!
+  \***********************************************/
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// This action is responsible for toggling the image
+	
+	var TOGGLE_IMAGE = exports.TOGGLE_IMAGE = 'TOGGLE_IMAGE';
+	
+	var toggleImage = exports.toggleImage = function toggleImage(imageObj) {
+	  return {
+	    type: TOGGLE_IMAGE,
+	    data: imageObj
+	  };
+	};
+
+/***/ },
+/* 204 */
+/*!***************************************************!*\
+  !*** ./src/client/app/containers/AppContainer.js ***!
+  \***************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 173);
+	
+	var _SearchBarString = __webpack_require__(/*! ../actions/SearchBarString.js */ 198);
+	
+	var search = _interopRequireWildcard(_SearchBarString);
+	
+	var _ToggleImage = __webpack_require__(/*! ../actions/ToggleImage.js */ 203);
+	
+	var toggle = _interopRequireWildcard(_ToggleImage);
+	
+	var _App = __webpack_require__(/*! ../components/App.jsx */ 205);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	// Defines Redux functions, and maps state and dispatch to props
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  var search = state.search;
+	  var toggle = state.toggle;
+	
+	  return {
+	    search: search,
+	    toggle: toggle
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, currentProps) {
+	  return {
+	    updateSearch: function updateSearch(string) {
+	      dispatch(search.searchString(string));
+	    },
+	    toggleOneImage: function toggleOneImage(imageObj) {
+	      dispatch(toggle.toggleImage(imageObj));
+	    }
+	  };
+	};
+	
+	//Connect both functions to the App parent component
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_App2.default);
+
+/***/ },
+/* 205 */
+/*!*******************************************!*\
+  !*** ./src/client/app/components/App.jsx ***!
+  \*******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 2);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _data = __webpack_require__(/*! ./data.js */ 199);
+	
+	var _SearchBarComponent = __webpack_require__(/*! ./SearchBarComponent.jsx */ 200);
+	
+	var _SearchBarComponent2 = _interopRequireDefault(_SearchBarComponent);
+	
+	var _ImagesComponent = __webpack_require__(/*! ./ImagesComponent.jsx */ 201);
+	
+	var _ImagesComponent2 = _interopRequireDefault(_ImagesComponent);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // Parent component for the entire application
+	
+	var App = function (_React$Component) {
+	  _inherits(App, _React$Component);
+	
+	  function App(props) {
+	    _classCallCheck(this, App);
+	
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	  }
+	
+	  _createClass(App, [{
+	    key: 'render',
+	    value: function render() {
+	      console.log('props are', this.props);
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'main' },
+	        _react2.default.createElement(_SearchBarComponent2.default, this.props),
+	        _react2.default.createElement(_ImagesComponent2.default, _extends({ imageData: _data.imageData }, this.props))
+	      );
+	    }
+	  }]);
+	
+	  return App;
+	}(_react2.default.Component);
+	
+	exports.default = App;
 
 /***/ }
 /******/ ]);
