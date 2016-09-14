@@ -7,28 +7,29 @@ export default class SingleImage extends React.Component {
   constructor (props) {
     super(props);
 
+    this.state = {
+      toggle: false
+    };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick (image) {
-    toggleImage(image);
+  handleClick () {
+    this.setState({
+      toggle: !this.state.toggle
+    });
   }
 
   render () {
-    var descriptionStyles = {
-      'cursor': 'pointer'
-    };
-    if (!this.props.image.toggle) {
+    if (!this.state.toggle) {
       return (
         <div className="innerCard">
-          <img src={this.props.image.link} onClick={this.handleClick(this.props.image)} className='themePictures'/>
+          <img src={this.props.image.link} onClick={this.handleClick} className='themePictures'/>
         </div>
       );
     } else {
       return (
-        <div className="innerCard">
-          <div onClick={this.handleClick(this.props.image)}>{this.props.image.description}</div>
-        </div>
+        <div className="description" onClick={this.handleClick}>{this.props.image.description}</div>
       );
     }
   }

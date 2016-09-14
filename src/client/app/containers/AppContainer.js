@@ -6,7 +6,6 @@ import * as toggle from '../actions/ToggleImage.js';
 import App from '../components/App.jsx';
 
 const mapStateToProps = function (state) {
-  console.log('map state being called');
   const { search, toggle } = state;
   return {
     search,
@@ -15,7 +14,6 @@ const mapStateToProps = function (state) {
 };
 
 const mapDispatchToProps = function (dispatch, currentProps) {
-  console.log('map dispatch being called');
   return {
     updateSearch: function (string) {
       dispatch(search.searchString(string));
@@ -25,5 +23,8 @@ const mapDispatchToProps = function (dispatch, currentProps) {
     }
   };
 };
+
+
+//Connect both functions to the App parent component
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
