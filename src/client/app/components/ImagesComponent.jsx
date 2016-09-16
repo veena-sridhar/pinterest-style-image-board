@@ -1,3 +1,5 @@
+//Maps over all the data and renders it using the single image component
+
 import React from 'react';
 import SingleImage from './SingleImage.jsx';
 

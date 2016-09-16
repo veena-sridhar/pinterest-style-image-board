@@ -10,7 +10,6 @@ export default class App extends React.Component {
     super(props);
   }
   render () {
-    console.log('props are', this.props);
     return (
       <div className="main">
         <SearchBar {...this.props}/>
